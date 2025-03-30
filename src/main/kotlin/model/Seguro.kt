@@ -2,7 +2,7 @@ package org.example.model
 
 
 abstract class Seguro(
-    val numPoliza: Int,
+    var numPoliza: Int,
     private val dniTitular: String,
     protected val importe: Double
 ): IExportable {
@@ -12,11 +12,11 @@ abstract class Seguro(
     abstract fun tipoSeguro():String
 
     override fun serializar(separador: String): String {
-        return "${numPoliza} $separador $dniTitular $separador ${importe}"
+        return "${numPoliza}$separador$dniTitular$separador${"%2.f".format(importe)}"
     }
 
     override fun toString(): String {
-        return "Seguro(numPoliza=$numPoliza, dniTitular=$dniTitular, importe=$importe)"
+        return "Seguro(numPoliza=$numPoliza, dniTitular=$dniTitular, importe=${"%2.f".format(importe)})"
     }
 
     override fun hashCode(): Int {
@@ -24,6 +24,6 @@ abstract class Seguro(
     }
 
     override fun equals(other: Any?): Boolean {
-        return super.equals(other)
+        return other is Seguro && this.numPoliza == other.numPoliza
     }
 }

@@ -7,7 +7,12 @@ enum class Perfil () {
 
     companion object{
         fun getPerfil(valor: String):Perfil{
-            return ADMIN
+            return when{
+                valor.lowercase() == "admin" -> ADMIN
+                valor.lowercase() == "gestion" -> GESTION
+                valor.lowercase() == "consulta" -> CONSULTA
+                else -> CONSULTA
+            }
         }
     }
 }
