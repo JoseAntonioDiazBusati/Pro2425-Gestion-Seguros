@@ -2,28 +2,39 @@ package org.example.data
 
 import org.example.model.Seguro
 
-class RepoSegurosMem: IRepoSeguros {
+open class RepoSegurosMem: IRepoSeguros {
+
+    protected val seguros = mutableListOf<Seguro>()
+
     override fun agregar(seguro: Seguro): Boolean {
-        TODO("Not yet implemented")
+        if (buscar(seguro.numPoliza) == null) {
+            seguros.add(seguro)
+            return true
+        }
+        return false
     }
 
     override fun buscar(numPoliza: Int): Seguro? {
-        TODO("Not yet implemented")
+        return seguros.find { it.numPoliza == numPoliza }
     }
 
     override fun eliminar(seguro: Seguro): Boolean {
-        TODO("Not yet implemented")
+        return seguros.remove(seguro)
     }
 
     override fun eliminar(numPoliza: Int): Boolean {
-        TODO("Not yet implemented")
+        val seguro = buscar(numPoliza)
+        if (seguro != null) {
+            eliminar(seguro)
+        }
+        return false
     }
 
     override fun obtenerTodos(): List<Seguro> {
-        TODO("Not yet implemented")
+        return seguros
     }
 
     override fun obtener(tipoSeguro: String): List<Seguro> {
-        TODO("Not yet implemented")
+        return seguros.filter { it.tipoSeguro() == tipoSeguro }
     }
 }

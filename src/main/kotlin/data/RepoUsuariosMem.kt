@@ -2,10 +2,19 @@ package org.example.data
 
 import org.example.model.Perfil
 import org.example.model.Usuario
+import org.example.utils.IUtilSeguridad
 
-open class RepoUsuariosMem : IRepoUsuarios {
+open class RepoUsuariosMem : IRepoUsuarios, IUtilSeguridad {
 
     protected val usuarios = mutableListOf<Usuario>()
+
+    override fun encriptarClave(clave: String, nivelSeguridad: Int): String {
+        TODO("Not yet implemented")
+    }
+
+    override fun verificarClave(claveIngresada: String, hashAlmacenado: String): Boolean {
+        TODO("Not yet implemented")
+    }
 
     override fun agregar(usuario: Usuario): Boolean {
         if (buscar(usuario.nombre) == null) {

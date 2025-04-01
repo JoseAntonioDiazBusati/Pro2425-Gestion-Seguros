@@ -3,18 +3,18 @@ package org.example.model
 
 class SeguroHogar : Seguro {
 
-    private val metrosCuadrados: Double
+    private val metrosCuadrados: Int
     private val valorContenido: Double
     private val direccion: String
-    private val anioConstruccion: Double
+    private val anioConstruccion: Int
 
     constructor(
         dniTitular: String,
         importe: Double,
-        metrosCuadrados: Double,
+        metrosCuadrados: Int,
         valorContenido: Double,
         direccion: String,
-        anioConstruccion: Double
+        anioConstruccion: Int
     ) : super(numPoliza = ++numPolizaHogar, dniTitular, importe) {
         this.metrosCuadrados = metrosCuadrados
         this.valorContenido = valorContenido
@@ -26,10 +26,10 @@ class SeguroHogar : Seguro {
         numPoliza: Int,
         dniTitular: String,
         importe: Double,
-        metrosCuadrados: Double,
+        metrosCuadrados: Int,
         valorContenido: Double,
         direccion: String,
-        anioConstruccion: Double
+        anioConstruccion: Int
     ) : super(numPoliza, dniTitular, importe) {
         this.metrosCuadrados = metrosCuadrados
         this.valorContenido = valorContenido
@@ -50,10 +50,10 @@ class SeguroHogar : Seguro {
                     datos[0].toInt(),
                     datos[1],
                     datos[2].toDouble(),
-                    datos[3].toDouble(),
+                    datos[3].toInt(),
                     datos[4].toDouble(),
                     datos[5],
-                    datos[6].toDouble()
+                    datos[6].toInt()
                 )
             } catch (e: IllegalArgumentException) {
                 println("Datos no válidos!!!")

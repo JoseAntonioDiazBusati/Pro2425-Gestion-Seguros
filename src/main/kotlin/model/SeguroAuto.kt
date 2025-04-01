@@ -4,7 +4,7 @@ package org.example.model
 class SeguroAuto : Seguro {
 
     private val descripcion: String
-    private var combustible: Double
+    private var combustible: String
     private val tipoAuto: Auto
     private val cobertura: Cobertura
     private val asistenciaCarretera: Boolean
@@ -14,7 +14,7 @@ class SeguroAuto : Seguro {
         dniTitular: String,
         importe: Double,
         descripcion: String,
-        combustible: Double,
+        combustible: String,
         tipoAuto: Auto,
         cobertura: Cobertura,
         asistenciaCarretera: Boolean,
@@ -33,7 +33,7 @@ class SeguroAuto : Seguro {
         dniTitular: String,
         importe: Double,
         descripcion: String,
-        combustible: Double,
+        combustible: String,
         tipoAuto: Auto,
         cobertura: Cobertura,
         asistenciaCarretera: Boolean,
@@ -58,7 +58,7 @@ class SeguroAuto : Seguro {
                 datos[1],
                 datos[2].toDouble(),
                 datos[3],
-                datos[4].toDouble(),
+                datos[4],
                 Auto.getAuto(datos[5]),
                 Cobertura.getCobertura(datos[6]),
                 datos[7].toBoolean(),
