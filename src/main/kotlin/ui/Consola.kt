@@ -1,5 +1,11 @@
 package org.example.ui
 
+import jdk.internal.org.jline.reader.EndOfFileException
+import jdk.internal.org.jline.reader.LineReaderBuilder
+import jdk.internal.org.jline.reader.UserInterruptException
+import jdk.internal.org.jline.terminal.TerminalBuilder
+
+
 class Consola: IEntradaSalida {
 
     override fun mostrar(msj: String, salto: Boolean, pausa: Boolean) {
