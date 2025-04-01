@@ -48,7 +48,7 @@ class SeguroAuto : Seguro {
     }
 
     companion object {
-        private var numPolizasAuto: Int = 400000
+        var numPolizasAuto: Int = 400000
 
         val PORCENTAJE_INCREMENTO_PARTES = 2
 

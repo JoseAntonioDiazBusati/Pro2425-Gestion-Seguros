@@ -34,7 +34,7 @@ class SeguroVida:Seguro{
     }
 
     companion object {
-        private var numPolizaVida: Int = 800000
+        var numPolizaVida: Int = 800000
 
         val INTERES_RESIDUAL = 0.005
 

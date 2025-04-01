@@ -38,7 +38,7 @@ class SeguroHogar : Seguro {
     }
 
     companion object {
-        private var numPolizaHogar: Int = 100000
+        var numPolizaHogar: Int = 100000
 
         val PORCENTAJE_INCREMENTO_ANIOS = 0.02
 
