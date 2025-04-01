@@ -1,23 +1,26 @@
 package org.example.ui
 
-import jdk.internal.org.jline.reader.EndOfFileException
-import jdk.internal.org.jline.reader.LineReaderBuilder
-import jdk.internal.org.jline.reader.UserInterruptException
-import jdk.internal.org.jline.terminal.TerminalBuilder
+import org.jline.reader.EndOfFileException
+import org.jline.reader.LineReaderBuilder
+import org.jline.reader.UserInterruptException
+import org.jline.terminal.TerminalBuilder
 
 
-class Consola: IEntradaSalida {
+class Consola : IEntradaSalida {
 
     override fun mostrar(msj: String, salto: Boolean, pausa: Boolean) {
         println(msj)
     }
 
     override fun mostrarError(msj: String, pausa: Boolean) {
-        println(msj)
+        println("ERROR -" + msj)
     }
 
     override fun pedirInfo(msj: String): String {
-        return msj
+        if (msj.isNotBlank()) {
+            mostrar(msj, false)
+        }
+        return readln().trim()
     }
 
     override fun pedirInfo(
@@ -25,7 +28,9 @@ class Consola: IEntradaSalida {
         error: String,
         debeCumplir: (String) -> Boolean
     ): String {
-        return msj
+        val entrada = pedirInfo(msj)
+        require(debeCumplir(entrada)){ mostrarError(error) }
+        return entrada.trim()
     }
 
     override fun pedirDouble(
@@ -34,7 +39,11 @@ class Consola: IEntradaSalida {
         errorConv: String,
         debeCumplir: (Double) -> Boolean
     ): Double {
-        return prompt.toDouble()
+        mostrar("Introduce un numero decimal: ")
+        val numDouble = readln().toDoubleOrNull()
+        require(numDouble.){ mostrarError(errorConv) }
+        require(debeCumplir(numDouble)){ mostrarError(error) }
+        return numDouble
     }
 
     override fun pedirEntero(
@@ -70,7 +79,7 @@ class Consola: IEntradaSalida {
     }
 
     override fun pausar(msj: String) {
-        mostrar(pedirInfo("Pulsa ENTER para continuar..."))
+        pedirInfo(msj)
     }
 
     override fun limpiarPantalla(numSaltos: Int) {
@@ -85,18 +94,18 @@ class Consola: IEntradaSalida {
     }
 
     override fun preguntar(mensaje: String): Boolean {
-        do{
+        do {
             mostrar("¿Desea confirmar? (s/n)")
             val valor = readln()
-            if (valor.lowercase() == "s"){
+            if (valor.lowercase() == "s") {
                 mostrar("Confirmado!")
                 return true
             }
-            if (valor.lowercase() == "n"){
+            if (valor.lowercase() == "n") {
                 mostrar("No se ha confirmado!")
                 return false
             }
-        }while (valor.lowercase() != "s" && valor.lowercase() != "n")
+        } while (valor.lowercase() != "s" && valor.lowercase() != "n")
         return false
     }
 }
