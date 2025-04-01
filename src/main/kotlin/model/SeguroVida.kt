@@ -56,17 +56,9 @@ class SeguroVida:Seguro{
     }
 
     override fun calcularImporteAnioSiguiente(interes: Double): Double {
-        TODO("Not yet implemented")
+        return (INTERES_RESIDUAL * interes)+interes
     }
 
-    override fun tipoSeguro(): String {
-        val seguro = this::class.simpleName
-        if (seguro == null) {
-            return "Desconocido"
-        } else {
-            return seguro
-        }
-    }
 
     override fun serializar(separador: String): String {
         return super.serializar(separador)

@@ -1,19 +1,24 @@
 package org.example.model
 
+import org.example.ui.Consola
+
 class Usuario(
     val nombre: String,
-    private var clave: String,
+    clave: String,
     val perfil: Perfil
 ): IExportable {
 
+    var clave: String = clave
+        private set
+
     fun cambiarClave(nuevaClaveEncriptada: String){
-        println("Introduzca la antigua clave para cambiarla: ")
+        Consola().mostrar("Introduzca la antigua clave para cambiarla: ")
         val antiguaClave = readln()
         if (antiguaClave.lowercase() == clave.lowercase()){
             clave = nuevaClaveEncriptada
-            println("Clave actualizada")
+            Consola().mostrar("Clave actualizada")
         }else{
-            println("No coinciden. Accion denegada")
+            Consola().mostrar("No coinciden. Accion denegada")
         }
     }
 
