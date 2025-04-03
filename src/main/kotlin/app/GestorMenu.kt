@@ -1,5 +1,9 @@
 package org.example.app
 
+import org.example.model.Perfil
+import org.example.model.Usuario
+import org.example.service.GestorSeguro
+import org.example.service.GestorUsuario
 import org.example.ui.Consola
 
 /**
@@ -12,15 +16,21 @@ import org.example.ui.Consola
  * @property gestorUsuarios Servicio de operaciones sobre usuarios.
  * @property gestorSeguros Servicio de operaciones sobre seguros.
  */
-class GestorMenu {
-    val ui = Consola()
+class GestorMenu(
+    val ui: Consola,
+    val perfiUsuario: String,
+    val nombreUsuario: Usuario,
+    val gestorUsuario: GestorUsuario,
+    val gestorSeguro: GestorSeguro
+
+) {
     /**
      * Inicia un menú según el índice correspondiente al perfil actual.
      *
      * @param indice Índice del menú que se desea mostrar (0 = principal).
      */
     fun iniciarMenu(indice: Int = 0) {
-        val (opciones, acciones) = ConfiguracionesApp.obtenerMenuYAcciones(perfilUsuario, indice)
+        val (opciones, acciones) = ConfiguracionesApp.obtenerMenuYAcciones(perfiUsuario, indice)
         ejecutarMenu(opciones, acciones)
     }
 
@@ -58,8 +68,7 @@ class GestorMenu {
                 val accion = ejecutar[opcion]
                 // Si la accion ejecutada del menú retorna true, debe salir del menú
                 if (accion != null && accion(this)) return
-            }
-            else {
+            } else {
                 ui.mostrarError("Opción no válida!")
             }
         } while (true)
@@ -67,24 +76,25 @@ class GestorMenu {
 
     /** Crea un nuevo usuario solicitando los datos necesarios al usuario */
     fun nuevoUsuario() {
-        TODO("Implementar este método")
+
+        gestorUsuario.repoUsuarios.agregar(Usuario.crearUsuario())
     }
 
     /** Elimina un usuario si existe */
     fun eliminarUsuario() {
-        TODO("Implementar este método")
+        gestorUsuario.repoUsuarios.agregar(Usuario.crearUsuario())
     }
 
     /** Cambia la contraseña del usuario actual */
     fun cambiarClaveUsuario() {
-        TODO("Implementar este método")
+        gestorUsuario.repoUsuarios.cambiarClave(this.nombreUsuario)
     }
 
     /**
      * Mostrar la lista de usuarios (Todos o filstrados por un perfil)
      */
     fun consultarUsuarios() {
-        TODO("Implementar este método")
+        gestorUsuario.repoUsuarios.obtenerTodos()
     }
 
     /**
@@ -92,8 +102,14 @@ class GestorMenu {
      *
      * @return El DNI introducido en mayúsculas.
      */
-    private fun pedirDni() {
-        TODO("Implementar este método")
+    private fun pedirDni(): String {
+        ui.mostrar("Introduce un DNI al usuario: ")
+        val dni = readln()
+        if (dni.last().isDigit()) {
+            return dni.uppercase()
+        } else {
+            return "DNI no válido!!!"
+        }
     }
 
     /**
@@ -102,12 +118,12 @@ class GestorMenu {
      * @return El valor introducido como `Double` si es válido.
      */
     private fun pedirImporte() {
-        TODO("Implementar este método")
+        ui.pedirDouble("Introduce un importe positivo: ", "Importe no válido!!!", "No es Double!!!",)
     }
 
     /** Crea un nuevo seguro de hogar solicitando los datos al usuario */
     fun contratarSeguroHogar() {
-        TODO("Implementar este método")
+        gestorSeguro.repoSeguros.agregar()
     }
 
     /** Crea un nuevo seguro de auto solicitando los datos al usuario */
@@ -127,22 +143,22 @@ class GestorMenu {
 
     /** Muestra todos los seguros existentes */
     fun consultarSeguros() {
-        TODO("Implementar este método")
+        gestorSeguro.repoSeguros.obtenerTodos()
     }
 
     /** Muestra todos los seguros de tipo hogar */
     fun consultarSegurosHogar() {
-        TODO("Implementar este método")
+        gestorSeguro.repoSeguros.obtener(tipoSeguro = "SeguroHogar")
     }
 
     /** Muestra todos los seguros de tipo auto */
     fun consultarSegurosAuto() {
-        TODO("Implementar este método")
+        gestorSeguro.repoSeguros.obtener(tipoSeguro = "SeguroAuto")
     }
 
     /** Muestra todos los seguros de tipo vida */
     fun consultarSegurosVida() {
-        TODO("Implementar este método")
+        gestorSeguro.repoSeguros.obtener(tipoSeguro = "SeguroVida")
     }
 
 }

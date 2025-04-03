@@ -101,7 +101,7 @@ class Consola : IEntradaSalida {
 
     override fun preguntar(mensaje: String): Boolean {
         do {
-            mostrar("¿Desea confirmar? (s/n)")
+            mostrar(mensaje)
             val valor = readln()
             if (valor.lowercase() == "s") {
                 mostrar("Confirmado!")

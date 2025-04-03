@@ -39,7 +39,7 @@ class CargadorInicial(
      */
     fun cargarSeguros() {
         try {
-            val seguros = repoSeguro.cargarSeguros()
+            val seguros = repoSeguro.cargarSeguros(ConfiguracionesApp.mapaCrearSeguros)
             ui.mostrar("Seguros cargados.")
         } catch (e: Exception) {
             ui.mostrarError("No se han podido cargar los seguros.")

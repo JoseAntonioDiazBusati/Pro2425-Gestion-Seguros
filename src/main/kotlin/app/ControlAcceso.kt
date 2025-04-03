@@ -1,7 +1,7 @@
 package org.example.app
 
 
-import org.example.data.IRepoUsuarios
+import org.example.model.Usuario
 import org.example.service.GestorUsuario
 import org.example.ui.IEntradaSalida
 import org.example.utils.IUtilFicheros
@@ -27,7 +27,7 @@ import java.io.File
  * @property ficheros Utilidad para operar con ficheros (leer, comprobar existencia...).
  */
 class ControlAcceso(
-    val rutaArchivo: File = File("Registro Usuarios.txt"),
+    val rutaArchivo: File = File("RegistroUsuarios.txt"),
     val gestorUsuarios: GestorUsuario,
     val ui: IEntradaSalida,
     val ficheros: IUtilFicheros
@@ -45,10 +45,11 @@ class ControlAcceso(
      *
      * @return Un par (nombreUsuario, perfil) si el acceso fue exitoso, o `null` si el usuario cancela el acceso.
      */
-    fun autenticar() {
+    fun autenticar(): Pair<String,String> {
         if (gestorUsuarios.consultarTodos().isEmpty()){
 
         }
+        return
     }
 
     /**
@@ -62,7 +63,7 @@ class ControlAcceso(
      * @return `true` si el proceso puede continuar (hay al menos un usuario),
      *         `false` si el usuario cancela la creación inicial o ocurre un error.
      */
-    private fun verificarFicheroUsuarios() {
+    private fun verificarFicheroUsuarios(): Boolean {
         TODO("Implementar este método")
     }
 
@@ -99,7 +100,7 @@ class ControlAcceso(
                 ui.mostrar("Clave incorrecta.")
             }
 
-            ui.mostrar("Autenticación exitosa. Bienvenido, ${usuario.nombre}.")
+            ui.mostrar("Sesión iniciada. Bienvenido, ${usuario.nombre}.")
         }
     }
 
