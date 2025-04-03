@@ -1,5 +1,6 @@
 package org.example.ui
 
+import java.io.File
 import org.jline.reader.EndOfFileException
 import org.jline.reader.LineReaderBuilder
 import org.jline.reader.UserInterruptException
@@ -40,8 +41,9 @@ class Consola : IEntradaSalida {
         debeCumplir: (Double) -> Boolean
     ): Double {
         mostrar("Introduce un numero decimal: ")
-        val numDouble = readln().toDoubleOrNull()
-        require(numDouble.){ mostrarError(errorConv) }
+        val entrada = readln().replace (",",".")
+        val numDouble = entrada.toDoubleOrNull()
+        require(numDouble != null){ mostrarError(errorConv) }
         require(debeCumplir(numDouble)){ mostrarError(error) }
         return numDouble
     }
@@ -52,7 +54,11 @@ class Consola : IEntradaSalida {
         errorConv: String,
         debeCumplir: (Int) -> Boolean
     ): Int {
-        return prompt.toInt()
+        val entrada = readln()
+        val numInt = entrada.toIntOrNull()
+        require(numInt != null){ mostrarError(errorConv) }
+        require(debeCumplir(numInt)){ mostrarError(error) }
+        return numInt
     }
 
     override fun pedirInfoOculta(prompt: String): String {

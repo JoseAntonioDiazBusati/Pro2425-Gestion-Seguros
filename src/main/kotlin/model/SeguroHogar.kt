@@ -1,5 +1,7 @@
 package org.example.model
 
+import org.example.ui.Consola
+
 
 class SeguroHogar : Seguro {
 
@@ -56,7 +58,7 @@ class SeguroHogar : Seguro {
                     datos[6].toInt()
                 )
             } catch (e: IllegalArgumentException) {
-                println("Datos no válidos!!!")
+                Consola().mostrarError("Datos no válidos!!!")
             }
             return null
         }
