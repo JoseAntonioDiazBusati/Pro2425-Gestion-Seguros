@@ -1,5 +1,12 @@
 package org.example.app
 
+
+import org.example.data.IRepoUsuarios
+import org.example.service.GestorUsuario
+import org.example.ui.IEntradaSalida
+import org.example.utils.IUtilFicheros
+import java.io.File
+
 /**
  * Clase responsable del control de acceso de usuarios: alta inicial, inicio de sesión
  * y recuperación del perfil. Su objetivo es asegurar que al menos exista un usuario
@@ -19,7 +26,12 @@ package org.example.app
  * @property ui Interfaz para mostrar mensajes y recoger entradas del usuario.
  * @property ficheros Utilidad para operar con ficheros (leer, comprobar existencia...).
  */
-class ControlAcceso
+class ControlAcceso(
+    val rutaArchivo: File = File("Registro Usuarios.txt"),
+    val gestorUsuarios: GestorUsuario,
+    val ui: IEntradaSalida,
+    val ficheros: IUtilFicheros
+)
 {
 
     /**
@@ -34,7 +46,9 @@ class ControlAcceso
      * @return Un par (nombreUsuario, perfil) si el acceso fue exitoso, o `null` si el usuario cancela el acceso.
      */
     fun autenticar() {
-        TODO("Implementar este método")
+        if (gestorUsuarios.consultarTodos().isEmpty()){
+
+        }
     }
 
     /**
@@ -62,7 +76,31 @@ class ControlAcceso
      *         o `null` si el usuario decide no continuar.
      */
     private fun iniciarSesion() {
-        TODO("Implementar este método")
+        var assist = true
+        while (assist) {
+            ui.mostrar("Ingrese nombre de usuario (o escriba 'salir' para cancelar):")
+            val nombreUsuario = readln()
+
+            if (nombreUsuario.lowercase() == "salir") {
+                ui.mostrar("Bye bye.")
+                assist = false
+            }
+
+            val usuario = gestorUsuarios.buscarUsuario(nombreUsuario)
+
+            if (usuario == null) {
+                ui.mostrar("Usuario no encontrado.")
+            }
+
+            ui.mostrar("Ingrese la clave:")
+            val clave = readln()
+
+            if (!gestorUsuarios.verificarClave(clave, usuario.clave)) {
+                ui.mostrar("Clave incorrecta.")
+            }
+
+            ui.mostrar("Autenticación exitosa. Bienvenido, ${usuario.nombre}.")
+        }
     }
 
 }

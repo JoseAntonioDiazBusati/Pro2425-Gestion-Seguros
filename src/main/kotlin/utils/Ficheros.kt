@@ -26,7 +26,7 @@ class Ficheros: IUtilFicheros {
             File(ruta).readLines()
             return listOf<Seguro>()
         } catch (e: IOException) {
-            Consola().mostrarError("Error al leer el archivo: ${e.message}")
+            Consola().mostrarError("Error al leer el seguro: ${e.message}")
             return emptyList()
         }
     }
