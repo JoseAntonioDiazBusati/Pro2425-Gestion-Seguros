@@ -117,13 +117,18 @@ class GestorMenu(
      *
      * @return El valor introducido como `Double` si es válido.
      */
-    private fun pedirImporte() {
-        ui.pedirDouble("Introduce un importe positivo: ", "Importe no válido!!!", "No es Double!!!",)
+    private fun pedirImporte(): Double? {
+        ui.mostrar("Introduce un IMPORTE al usuario: ")
+        val importe = readln().toDouble()
+        if (importe == null){
+            return null
+        }
+        return importe
     }
 
     /** Crea un nuevo seguro de hogar solicitando los datos al usuario */
     fun contratarSeguroHogar() {
-        gestorSeguro.repoSeguros.agregar()
+        TODO("Implementar este método")
     }
 
     /** Crea un nuevo seguro de auto solicitando los datos al usuario */

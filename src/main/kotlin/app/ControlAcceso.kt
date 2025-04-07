@@ -1,6 +1,7 @@
 package org.example.app
 
 
+import org.example.model.Perfil
 import org.example.model.Usuario
 import org.example.service.GestorUsuario
 import org.example.ui.IEntradaSalida
@@ -27,12 +28,11 @@ import java.io.File
  * @property ficheros Utilidad para operar con ficheros (leer, comprobar existencia...).
  */
 class ControlAcceso(
-    val rutaArchivo: File = File("RegistroUsuarios.txt"),
+    val rutaArchivo: File,
     val gestorUsuarios: GestorUsuario,
     val ui: IEntradaSalida,
     val ficheros: IUtilFicheros
-)
-{
+) {
 
     /**
      * Inicia el proceso de autenticación del sistema.
@@ -45,11 +45,11 @@ class ControlAcceso(
      *
      * @return Un par (nombreUsuario, perfil) si el acceso fue exitoso, o `null` si el usuario cancela el acceso.
      */
-    fun autenticar(): Pair<String,String> {
-        if (gestorUsuarios.consultarTodos().isEmpty()){
-
+    fun autenticar(): Pair<String, String>? {
+        if (!verificarFicheroUsuarios()) {
+            return null
         }
-        return
+        return iniciarSesion()
     }
 
     /**
@@ -64,7 +64,30 @@ class ControlAcceso(
      *         `false` si el usuario cancela la creación inicial o ocurre un error.
      */
     private fun verificarFicheroUsuarios(): Boolean {
-        TODO("Implementar este método")
+        if (!ficheros.existeFichero(rutaArchivo.path)) {
+            ui.mostrarError("Archivo inexistente.")
+        }
+        if (gestorUsuarios.consultarTodos().isEmpty()) {
+            ui.mostrar("No hay usuarios registrados.")
+            val confirmar = ui.preguntar("¿Desea registrar un usuario ADMIN inicial? (s/n)")
+            if (confirmar) {
+                val datos = mutableListOf<String>()
+                ui.mostrar("Introduce el nombre de usuario: ")
+                val nomUser = readln()
+                datos.add(nomUser)
+                ui.mostrar("Introduce su contraseña: ")
+                val contrasenia = readln()
+                datos.add(contrasenia)
+                val perfil = "admin"
+                datos.add(perfil)
+                gestorUsuarios.repoUsuarios.agregar(Usuario.crearUsuario(datos))
+                return true
+            } else {
+                ui.mostrar("No se ha creado ningún usuario. Cancelando acceso.")
+                return false
+            }
+        }
+        return true
     }
 
     /**
@@ -76,7 +99,7 @@ class ControlAcceso(
      * @return Un par (nombreUsuario, perfil) si las credenciales son correctas,
      *         o `null` si el usuario decide no continuar.
      */
-    private fun iniciarSesion() {
+    private fun iniciarSesion(): Pair<String, String>? {
         var assist = true
         while (assist) {
             ui.mostrar("Ingrese nombre de usuario (o escriba 'salir' para cancelar):")
@@ -101,6 +124,7 @@ class ControlAcceso(
             }
 
             ui.mostrar("Sesión iniciada. Bienvenido, ${usuario.nombre}.")
+            return Pair(usuario.nombre, usuario.perfil.name)
         }
     }
 
